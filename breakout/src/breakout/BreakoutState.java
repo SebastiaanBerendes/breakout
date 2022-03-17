@@ -33,19 +33,28 @@ public class BreakoutState {
 	}
 
 	public void tick(int paddleDir) {
+		
 	}
 
 	public void movePaddleRight() {
+		
 	}
 
 	public void movePaddleLeft() {
+		
 	}
 	
 	public boolean isWon() {
-		return false;
+		if (this.balls.length > 0 && this.blocks.length == 0) {
+			return true;}
+		else {
+			return false;}
 	}
 
 	public boolean isDead() {
-		return false;
+		if (this.balls.length < 1) {
+			return true; }
+		else {
+			return false; }
 	}
 }

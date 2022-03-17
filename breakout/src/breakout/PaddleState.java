@@ -2,13 +2,13 @@ package breakout;
 
 public class PaddleState {
 	
-	private Point position;
+	private Point center;
 	
-	public PaddleState(Point position) {
-		this.position = position;
+	public PaddleState(Point center) {
+		this.center = center;
 	}
 	
 	public Point getPosition() {
-		return this.position;
+		return this.center;
 	}
 }
