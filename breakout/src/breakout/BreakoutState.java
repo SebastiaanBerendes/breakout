@@ -33,15 +33,39 @@ public class BreakoutState {
 	}
 
 	public void tick(int paddleDir) {
-		
+		int length = balls.length;
+		for (int i = 0; i < length; i++) {
+			balls[i] = new BallState(balls[i].getCenter().plus(balls[i].getVelocity()), balls[i].getVelocity(), balls[i].getDiameter());
+			
+//			if (0 > balls[i].getTL().getX()) {
+//				balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(balls[i].getVelocity()), balls[i].getDiameter());
+//			}
+//			if (50000 < balls[i].getBR().getX()) {
+//				
+//			}
+//			if (0 > balls[i].getTL().getY()) {
+//																CHECK OPGAVE IETS MET RECTANGLE
+//			}
+//			if (30000 < balls[i].getBR().getY()) {
+//				
+//			}
+		}
 	}
 
 	public void movePaddleRight() {
-		
+		Vector shift = new Vector(10,0);
+		Point newCenter = paddle.getCenter().plus(shift);
+		Point newTL = paddle.getTL().plus(shift);
+		Point newBR = paddle.getBR().plus(shift);
+		paddle = new PaddleState(newCenter, newTL, newBR);
 	}
 
 	public void movePaddleLeft() {
-		
+		Vector shift = new Vector(-10,0);
+		Point newCenter = paddle.getCenter().plus(shift);
+		Point newTL = paddle.getTL().plus(shift);
+		Point newBR = paddle.getBR().plus(shift);
+		paddle = new PaddleState(newCenter, newTL, newBR);
 	}
 	
 	public boolean isWon() {

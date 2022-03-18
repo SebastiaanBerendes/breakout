@@ -18,7 +18,7 @@ public class GameMap {
 		Point blockTL = bottomLeft.plus(marginBL);
 		Point blockBR = blockTL.plus(size);
 		
-		// TODO: return a block with given top left (`blockTL`) and bottom right (`blockBR`) Point  
+		// TODO: return a block with given top left (`blockTL`) and bottom right (`blockBR`) Point  (done)
 		BlockState block = new BlockState(blockTL, blockBR);		
 		return block;
 	}
@@ -26,8 +26,10 @@ public class GameMap {
 		Vector size = new Vector(WIDTH/BLOCK_COLUMNS/2,HEIGHT/BLOCK_LINES/2);
 		Point center = bottomLeft.plus(size);
 		
-		// TODO: return a paddle with given center 
-		PaddleState paddle = new PaddleState(center);
+		// TODO: return a paddle with given center (done)
+		Point TL = bottomLeft;
+		Point BR = bottomLeft.plus(size.scaled(2));
+		PaddleState paddle = new PaddleState(center, TL, BR);
 		return paddle;
 	}
 	private static BallState createBall(Point bottomLeft) {
@@ -35,7 +37,7 @@ public class GameMap {
 		Point center = bottomLeft.plus(centerD);
 		int diameter = INIT_BALL_DIAMETER;
 		
-		// TODO: return a ball with given `center`, `diameter` and initial speed `initSpeed`
+		// TODO: return a ball with given `center`, `diameter` and initial speed `initSpeed`  (done)
 		Vector initSpeed = INIT_BALL_VELOCITY;
 		BallState ball = new BallState(center, initSpeed, diameter);
 		return ball;
