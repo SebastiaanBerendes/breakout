@@ -33,11 +33,26 @@ public class BreakoutState {
 	}
 
 	public void tick(int paddleDir) {
-		int length = balls.length;
-		for (int i = 0; i < length; i++) {
+		int length_balls = balls.length;
+		int length_blocks = blocks.length;
+		for (int i = 0; i < length_balls; i++) {
 			balls[i] = new BallState(balls[i].getCenter().plus(balls[i].getVelocity()), balls[i].getVelocity(), balls[i].getDiameter());
 			
-			
+//			block collision detection
+			if (length_blocks != 0) {
+				for (int j = 0; j < length_blocks; j++) {
+					Vector m_block = blocks[j].collision(balls[i].getCenter(), balls[i].getDiameter());
+					if (m_block.getSquareLength() == 1) {
+						balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(m_block), balls[i].getDiameter());
+					}
+//					index moet nog bijgehouden worden zodat de block verwijderd kan worden
+				}
+			}
+//			paddle collision detection
+			Vector m_paddle = paddle.collision(balls[i].getCenter(), balls[i].getDiameter());
+			if (m_paddle.getSquareLength() == 1) {
+				balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(m_paddle), balls[i].getDiameter());
+			}
 			
 			
 //			if (0 > balls[i].getTL().getX()) {

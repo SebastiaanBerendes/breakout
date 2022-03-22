@@ -10,6 +10,8 @@ public class BlockState {
 	public BlockState(Point TL, Point BR) {
 		this.blockTL = TL;
 		this.blockBR = BR;
+		Rectangle loc = new Rectangle(TL, BR);
+		this.location = loc;
 	}
 	
 	public Point getTL() {

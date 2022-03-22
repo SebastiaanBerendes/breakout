@@ -1,6 +1,6 @@
 package breakout;
 
-public abstract class Rectangle {
+public class Rectangle {
 	private Point RectangleTL;
 	private Point RectangleBR;
 
@@ -34,6 +34,7 @@ public abstract class Rectangle {
 				return vectorL;
 			}
 		}
-		return null;
+		Vector vector_null = new Vector(0,0);
+		return vector_null;
 	}
 }

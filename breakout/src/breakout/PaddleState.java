@@ -11,6 +11,8 @@ public class PaddleState {
 		this.center = center;
 		this.paddleBR = BR;
 		this.paddleTL = TL;
+		Rectangle loc = new Rectangle(TL, BR);
+		this.location = loc;
 	}
 	
 	public Point getCenter() {
