@@ -4,6 +4,7 @@ public class BlockState {
 	
 	private Point blockTL;
 	private Point blockBR;
+	private Rectangle location;
 	
 	
 	public BlockState(Point TL, Point BR) {
@@ -17,5 +18,8 @@ public class BlockState {
 	
 	public Point getBR() {
 		return this.blockBR;
+	}
+	public Vector collision(Point Ballcenter, int Balldiameter) {
+		return location.collision(Ballcenter, Balldiameter);
 	}
 }
