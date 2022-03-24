@@ -1,53 +1,56 @@
 package breakout;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-// TODO: implement, document
+/**
+ * Represents a state of the game breakout
+ * 
+ *@invar | getBalls() != null 
+ *@invar | getBlocks() != null
+ *@invar | getBottomRight() != null
+ *@invar | getPaddle() != null
+ */
 public class BreakoutState {
 	
-	private BallState[] balls;
-	private BlockState[] blocks;
-	private Point bottomRight;
-	private PaddleState paddle;
-	private WallState[] walls;
+	BallState[] balls;
+	BlockState[] blocks;
+	Point bottomRight;
+	PaddleState paddle;
 
 	
 	/**
 	 * Return a new BreakoutState with given balls, blocks, most bottomRight point and paddle
 	 * 
-	 * @post | getBalls() == balls
-	 * @post | getBlocks() == blocks
+	 * @throws IllegalArgumentException | balls == null
+	 * @throws IllegalArgumentException | blocks == null
+	 * @throws IllegalArgumentException | paddle == null
+	 * @throws IllegalArgumentException | bottomRight == null
+	 * 
+	 * @post | Arrays.equals(getBalls(), balls)
+	 * @post | Arrays.equals(getBlocks(), blocks)
 	 * @post | getPaddle() == paddle
 	 * @post | getBottomRight() == bottomRight
 	 */
 	public BreakoutState(BallState[] balls, BlockState[] blocks, Point bottomRight, PaddleState paddle) {
+		if (balls == null || blocks == null || paddle == null || bottomRight == null)
+			throw new IllegalArgumentException();
 		this.balls = balls;
 		this.blocks = blocks;
 		this.bottomRight = bottomRight;
 		this.paddle = paddle;
-		Point wallTTL = new Point (Point.ORIGIN.getX(), Point.ORIGIN.getY() - bottomRight.getY());
-		Point wallTBR = new Point (bottomRight.getX(), Point.ORIGIN.getY());
-		Point wallLTL = new Point (Point.ORIGIN.getX() - bottomRight.getX(), Point.ORIGIN.getY());
-		Point wallLBR = new Point (Point.ORIGIN.getX(), bottomRight.getY());
-		Point wallRTL = new Point (bottomRight.getX(), Point.ORIGIN.getY());
-		Point wallRBR = new Point (2 * bottomRight.getX(), bottomRight.getY());
-		WallState wallT = new WallState(wallTTL, wallTBR);
-		WallState wallL = new WallState(wallLTL, wallLBR);
-		WallState wallR = new WallState(wallRTL, wallRBR);
-		WallState[] walls = new WallState[]{wallT, wallL, wallR};
-		this.walls = walls;
 	}
 	
 	/** Returns a list of ballstates */
 	public BallState[] getBalls() {
-		return this.balls;
+		return this.balls.clone();
 	}
 
 	/** Returns a list of blockstates */
 	public BlockState[] getBlocks() {
-		return this.blocks;
+		return this.blocks.clone();
 	}
 
 	/** Returns the paddle */
@@ -59,8 +62,28 @@ public class BreakoutState {
 	public Point getBottomRight() {
 		return this.bottomRight;
 	}
+	/** Returns the walls */
+	public WallState[] getWalls() {
+		Point wallTTL = new Point (Point.ORIGIN.getX(), Point.ORIGIN.getY() - bottomRight.getY());
+		Point wallTBR = new Point (bottomRight.getX(), Point.ORIGIN.getY());
+		Point wallLTL = new Point (Point.ORIGIN.getX() - bottomRight.getX(), Point.ORIGIN.getY());
+		Point wallLBR = new Point (Point.ORIGIN.getX(), bottomRight.getY());
+		Point wallRTL = new Point (bottomRight.getX(), Point.ORIGIN.getY());
+		Point wallRBR = new Point (2 * bottomRight.getX(), bottomRight.getY());
+		WallState wallT = new WallState(wallTTL, wallTBR);
+		WallState wallL = new WallState(wallLTL, wallLBR);
+		WallState wallR = new WallState(wallRTL, wallRBR);
+		WallState[] walls = new WallState[]{wallT, wallL, wallR};
+		return walls;
+	}
 
+	/** 
+	 * Moves the balls according to their velocity, checks if there are any collisions between the balls and the blocks, walls and paddle
+	 * and reflects the ball accordingly. If any blocks are hit by balls, they are removed and balls that hit the bottom of the screen
+	 * also get removed. Balls that hit the paddle will inherit a fifth of the speed of the paddle.
+	 */
 	public void tick(int paddleDir) {
+		WallState[] walls = getWalls();
 		int length_balls = balls.length;
  		int length_blocks = blocks.length;
  		int length_walls = walls.length;
@@ -153,7 +176,10 @@ public class BreakoutState {
 		}
 		this.balls = new_balls;
 	}
-
+	
+	/**
+	 * When the right arrowkey is pressed, the paddle will move to the right.
+	 */
 	public void movePaddleRight() {
 		Vector shift = new Vector(paddle.getSpeed(),0);
 		Point newCenter = paddle.getCenter().plus(shift);
@@ -162,7 +188,10 @@ public class BreakoutState {
 		if (newBR.getX()<=50000)	
 			paddle = new PaddleState(newCenter, newTL, newBR);
 	}
-
+	
+	/**
+	 * When the left arrowkey is pressed, the paddle will move to the left.
+	 */
 	public void movePaddleLeft() {
 		Vector shift = new Vector(-paddle.getSpeed(),0);
 		Point newCenter = paddle.getCenter().plus(shift);
@@ -172,17 +201,25 @@ public class BreakoutState {
 			paddle = new PaddleState(newCenter, newTL, newBR);
 	}
 	
+	/**
+	 * Returns true if the game is won, returns false if it isn't
+	 * @inspects | getBalls(), getBlocks()
+	 */
 	public boolean isWon() {
-		if (this.balls.length > 0 && this.blocks.length == 0) {
-			return true;}
-		else {
-			return false;}
+		if (this.getBalls().length > 0 && this.getBlocks().length == 0) 
+			return true;
+		else 
+			return false;
 	}
-
+	
+	/**
+	 * Returns true if it is game over, returns false if it isn't
+	 * @inspects | getBalls()
+	 */
 	public boolean isDead() {
-		if (this.balls.length < 1) {
-			return true; }
-		else {
-			return false; }
+		if (this.getBalls().length < 1) 
+			return true; 
+		else 
+			return false; 
 	}
 }

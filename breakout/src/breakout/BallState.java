@@ -2,7 +2,9 @@ package breakout;
 
 /**
  * Represents a ball. 
- *
+ * @invar | getCenter() != null
+ * @invar | getVelocity() != null
+ * @invar | getDiameter() > 0
  * @immutable
  */
 public class BallState {
@@ -13,7 +15,9 @@ public class BallState {
 	
 	/**
 	 * Return a new ball with given center, velocity and diameter.
-	 * 
+	 * @pre | position != null
+	 * @pre | velocity != null
+	 * @pre | diameter > 0
 	 * @post | getCenter() == position
 	 * @post | getVelocity() == velocity
 	 * @post | getDiameter() == diameter

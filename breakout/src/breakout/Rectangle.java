@@ -7,8 +7,22 @@ public class Rectangle {
 	public Rectangle(Point TL, Point BR) {
 		this.RectangleTL = TL;
 		this.RectangleBR = BR;
-
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Rectangle other = (Rectangle) obj;
+		if (!RectangleTL.equals(other.RectangleTL))
+			return false;
+		if (!RectangleBR.equals(other.RectangleBR))
+			return false;
+		return true;
+	}
+	
 	public Vector collision(Point Ballcenter, int Balldiameter) {
 		if (this.RectangleTL.getX() <= Ballcenter.getX() && Ballcenter.getX() <= this.RectangleBR.getX()) { 
 //			This is for top of Object collision
