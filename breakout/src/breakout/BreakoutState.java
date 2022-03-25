@@ -15,6 +15,12 @@ import java.util.List;
  */
 public class BreakoutState {
 	
+	/**
+	 *@invar | balls != null 
+	 *@invar | blocks != null
+	 *@invar | bottomRight != null
+	 *@invar | paddle != null
+	 */
 	BallState[] balls;
 	BlockState[] blocks;
 	Point bottomRight;
@@ -64,17 +70,11 @@ public class BreakoutState {
 	}
 	/** Returns the walls */
 	public WallState[] getWalls() {
-		Point wallTTL = new Point (Point.ORIGIN.getX(), Point.ORIGIN.getY() - bottomRight.getY());
-		Point wallTBR = new Point (bottomRight.getX(), Point.ORIGIN.getY());
-		Point wallLTL = new Point (Point.ORIGIN.getX() - bottomRight.getX(), Point.ORIGIN.getY());
-		Point wallLBR = new Point (Point.ORIGIN.getX(), bottomRight.getY());
-		Point wallRTL = new Point (bottomRight.getX(), Point.ORIGIN.getY());
-		Point wallRBR = new Point (2 * bottomRight.getX(), bottomRight.getY());
-		WallState wallT = new WallState(wallTTL, wallTBR);
-		WallState wallL = new WallState(wallLTL, wallLBR);
-		WallState wallR = new WallState(wallRTL, wallRBR);
+		WallState wallT = new WallState(new Point (Point.ORIGIN.getX(), Point.ORIGIN.getY() - bottomRight.getY()), new Point (bottomRight.getX(), Point.ORIGIN.getY()));
+		WallState wallL = new WallState(new Point (Point.ORIGIN.getX() - bottomRight.getX(), Point.ORIGIN.getY()), new Point (Point.ORIGIN.getX(), bottomRight.getY()));
+		WallState wallR = new WallState(new Point (bottomRight.getX(), Point.ORIGIN.getY()), new Point (2 * bottomRight.getX(), bottomRight.getY()));
 		WallState[] walls = new WallState[]{wallT, wallL, wallR};
-		return walls;
+		return walls.clone();
 	}
 
 	/** 
@@ -102,22 +102,19 @@ public class BreakoutState {
 				index_balls[i] = 1;
 				counter_balls += 1;
 			}
-			else
+			else {
 				index_balls[i] = 0;
-			
+			}
 //			block collision detection
-			if (length_blocks != 0) {
-				for (int j = 0; j < length_blocks; j++) {
-					Vector m_block = blocks[j].collision(balls[i].getCenter(), balls[i].getDiameter());
-					if (m_block.getSquareLength() == 1) {
-						balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(m_block), balls[i].getDiameter());
-						index_blocks[j] = 1;
-						counter_blocks += 1;
-					}
-//					index moet nog bijgehouden worden zodat de block verwijderd kan worden
-					else
-						index_blocks[j] = 0;
+			for (int j = 0; j < length_blocks; j++) {
+				Vector m_block = blocks[j].collision(balls[i].getCenter(), balls[i].getDiameter());
+				if (m_block.getSquareLength() == 1) {
+					balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(m_block), balls[i].getDiameter());
+					index_blocks[j] = 1;
+					counter_blocks += 1;
 				}
+				else
+					index_blocks[j] = 0;
 			}
 //			paddle collision detection
 			Vector m_paddle = paddle.collision(balls[i].getCenter(), balls[i].getDiameter());
@@ -125,17 +122,17 @@ public class BreakoutState {
 				// right
 				if (m_paddle.getX() == 1) {
 					Vector shift = new Vector(paddle.getSpeed(),0);
-					balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().plus(shift), balls[i].getDiameter());
+					balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(m_paddle).plus(shift), balls[i].getDiameter());
 				}
 				// left
 				else if (m_paddle.getX() == -1) {
-					Vector shift = new Vector(-paddle.getSpeed(),0);
-					balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().plus(shift), balls[i].getDiameter());
+					Vector shift = new Vector(paddle.getSpeed(),0);
+					balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(m_paddle).minus(shift), balls[i].getDiameter());
 				}
 				// top with speed up
 				else {
 					Vector speed = balls[i].getVelocity().mirrorOver(m_paddle);
-					Vector shift = new Vector(paddle.getSpeed()*6/5,0);
+					Vector shift = new Vector(paddle.getSpeed()/5,0);
 					if (paddleDir == 1) {
 						speed = speed.plus(shift);
 					}
@@ -152,13 +149,12 @@ public class BreakoutState {
 					balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(m_wall), balls[i].getDiameter());
 				}
 			}
-			
 		}
 //		new list with blocks
 		int pointer = 0;
 		BlockState[] new_blocks = new BlockState[length_blocks-counter_blocks];
 		for (int i = 0; i < length_blocks; i++) {
-			if (index_blocks[i] == 0) {
+			if (index_blocks[i] == 0 && pointer < length_blocks-counter_blocks) {
 				new_blocks[pointer] = blocks[i];
 				pointer++;
 			}
@@ -185,7 +181,7 @@ public class BreakoutState {
 		Point newCenter = paddle.getCenter().plus(shift);
 		Point newTL = paddle.getTL().plus(shift);
 		Point newBR = paddle.getBR().plus(shift);
-		if (newBR.getX()<=50000)	
+		if (newBR.getX()<=bottomRight.getX())	
 			paddle = new PaddleState(newCenter, newTL, newBR);
 	}
 	
@@ -197,7 +193,7 @@ public class BreakoutState {
 		Point newCenter = paddle.getCenter().plus(shift);
 		Point newTL = paddle.getTL().plus(shift);
 		Point newBR = paddle.getBR().plus(shift);
-		if (newTL.getX() >= 0)
+		if (newTL.getX() >= Point.ORIGIN.getX())
 			paddle = new PaddleState(newCenter, newTL, newBR);
 	}
 	
