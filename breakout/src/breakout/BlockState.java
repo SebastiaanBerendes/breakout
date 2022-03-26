@@ -19,8 +19,8 @@ public class BlockState {
 	 * @pre | BR != null
 	 * @pre | visibility == true || visibility == false
 	 * @pre | TL.getX() < BR.getX() && TL.getY() < BR.getY()
-	 * @post | getTL() == TL
-	 * @post | getBR() == BR
+	 * @post | getTL().equals(TL)
+	 * @post | getBR().equals(BR)
 	 * @post | getVisibility() == visibility
 	 */
 	public BlockState(Point TL, Point BR, boolean visibility) {

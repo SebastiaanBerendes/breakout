@@ -15,8 +15,8 @@ public class WallState {
 	 * Returns a wall with given topleft and bottomright point
 	 * @pre | TL != null || BR != null
 	 * @pre | TL.getX() < BR.getX() && TL.getY() < BR.getY()
-	 * @post | getBR() == BR
-	 * @post | getTL() == TL
+	 * @post | getBR().equals(BR)
+	 * @post | getTL().equals(TL)
 	 */
 	public WallState(Point TL, Point BR) {
 		this.bottomright = BR;

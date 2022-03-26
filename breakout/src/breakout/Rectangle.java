@@ -1,9 +1,23 @@
 package breakout;
 
+/**
+ * Represents a rectangle
+ * @invar | getTL() != null
+ * @invar | getBR() != null
+ * @immutable
+ */
 public class Rectangle {
 	private Point RectangleTL;
 	private Point RectangleBR;
 
+	/**
+	 * Return a rectangle with given most topleft and bottomright point
+	 * @pre | TL != null
+	 * @pre | BR != null 
+	 * @pre | TL.getX() < BR.getX() && TL.getY() < BR.getY()
+	 * @post | TL.equals(getTL())
+	 * @post | BR.equals(getBR())
+	 */
 	public Rectangle(Point TL, Point BR) {
 		this.RectangleTL = TL;
 		this.RectangleBR = BR;
@@ -23,6 +37,23 @@ public class Rectangle {
 		return true;
 	}
 	
+	/** Returns the most bottomright point of this rectangle */
+	public Point getBR() {
+		return this.RectangleBR;
+	}
+
+	/** Returns the most topleft point of this rectangle */
+	public Point getTL() {
+		return this.RectangleTL;
+	}
+	
+	/** Checks if this rectangle has a collision with a ball with given center and diameter and returns the reflection vector
+	 *  If there is no collision the function returns the zero vector.
+	 * @pre | Ballcenter != null
+	 * @pre | Balldiameter > 0
+	 * 
+	 * @post | result.equals(Vector.UP) || result.equals(Vector.DOWN) || result.equals(Vector.RIGHT) || result.equals(Vector.LEFT) || result.equals(new Vector(0,0))
+	 */
 	public Vector collision(Point Ballcenter, int Balldiameter) {
 		if (this.RectangleTL.getX() <= Ballcenter.getX() && Ballcenter.getX() <= this.RectangleBR.getX()) { 
 //			This is for top of Object collision

@@ -18,8 +18,8 @@ public class BallState {
 	 * @pre | position != null
 	 * @pre | velocity != null
 	 * @pre | diameter > 0
-	 * @post | getCenter() == position
-	 * @post | getVelocity() == velocity
+	 * @post | getCenter().equals(position)
+	 * @post | getVelocity().equals(velocity)
 	 * @post | getDiameter() == diameter
 	 */
 	public BallState(Point position, Vector velocity, int diameter) {

@@ -20,9 +20,9 @@ public class PaddleState {
 	 * @pre | BR != null
 	 * @pre | TL.getX() < BR.getX() && TL.getY() < BR.getY()
 	 * @pre | (BR.getX()+TL.getX())/2 == center.getX() && (BR.getY()+TL.getY())/2 == center.getY()
-	 * @post | getCenter() == center
-	 * @post | getTL() == TL
-	 * @post | getBR() == BR
+	 * @post | getCenter().equals(center)
+	 * @post | getTL().equals(TL)
+	 * @post | getBR().equals(BR)
 	 */
 	public PaddleState(Point center, Point TL, Point BR) {
 		this.center = center;
