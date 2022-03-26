@@ -69,7 +69,7 @@ class TestFile {
 		assertEquals(new Point(15,10).equals(paddle1.getTL()),true);
 		assertEquals(new Point(25,30).equals(paddle1.getBR()),true);
 		assertEquals(10,paddle1.getSpeed());
-		assertEquals(paddle1.getRectangle().equals(new Rectangle(new Point(15,10),new Point(11,11))),false);
+		assertEquals(paddle1.getRectangle().equals(new Rectangle(new Point(15,10),new Point(24,30))),false);
 		assertEquals(paddle1.getRectangle().equals(new Rectangle(new Point(14,10),new Point(25,30))),false);
 		assertEquals(new Vector(0,-1).equals(paddle1.collision(new Point(17,9),3)),true);
 		assertEquals(new Vector(0,0).equals(paddle1.collision(new Point(17,9),1)),true);
