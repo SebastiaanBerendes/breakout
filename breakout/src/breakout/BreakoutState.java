@@ -1,9 +1,6 @@
 package breakout;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * Represents a state of the game breakout
