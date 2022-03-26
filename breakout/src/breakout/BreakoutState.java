@@ -98,7 +98,6 @@ public class BreakoutState {
  		int length_blocks = blocks.length;
  		int length_walls = walls.length;
 		int[] index_balls = new int[length_balls];
- 		int[] index_blocks = new int[length_blocks];
 		int counter_balls = 0;
  		int counter_blocks = 0;
  		
@@ -120,11 +119,9 @@ public class BreakoutState {
 				Vector m_block = blocks[j].collision(balls[i].getCenter(), balls[i].getDiameter());
 				if (m_block.getSquareLength() == 1) {
 					balls[i] = new BallState(balls[i].getCenter(), balls[i].getVelocity().mirrorOver(m_block), balls[i].getDiameter());
-					index_blocks[j] = 1;
+					blocks[j] = new BlockState(blocks[j].getTL(),blocks[j].getBR(),false);
 					counter_blocks += 1;
 				}
-				else
-					index_blocks[j] = 0;
 			}
 //			paddle collision detection
 			Vector m_paddle = paddle.collision(balls[i].getCenter(), balls[i].getDiameter());
@@ -164,7 +161,7 @@ public class BreakoutState {
 		int pointer = 0;
 		BlockState[] new_blocks = new BlockState[length_blocks-counter_blocks];
 		for (int i = 0; i < length_blocks; i++) {
-			if (index_blocks[i] == 0 && pointer < length_blocks-counter_blocks) {
+			if (blocks[i].getVisibility() == true && pointer < length_blocks-counter_blocks) {
 				new_blocks[pointer] = blocks[i];
 				pointer++;
 			}

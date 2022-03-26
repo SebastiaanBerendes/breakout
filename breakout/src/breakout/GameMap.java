@@ -19,7 +19,7 @@ public class GameMap {
 		Point blockBR = blockTL.plus(size);
 		
 		// TODO: return a block with given top left (`blockTL`) and bottom right (`blockBR`) Point  (done)
-		BlockState block = new BlockState(blockTL, blockBR);		
+		BlockState block = new BlockState(blockTL, blockBR, true);		
 		return block;
 	}
 	private static PaddleState createPaddle(Point bottomLeft) {

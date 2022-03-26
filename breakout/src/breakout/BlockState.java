@@ -4,24 +4,29 @@ package breakout;
  * Represents a block. 
  * @invar | getTL() != null
  * @invar | getBR() != null
+ * @invar | getVisibility() == false || getVisibility() == true
  * @immutable
  */
 public class BlockState {
 	
 	private Point blockTL;
 	private Point blockBR;
+	private boolean visible;
 	
 	/**
 	 * Return a new block with given topleft and bottomright points.
 	 * @pre | TL != null
 	 * @pre | BR != null
+	 * @pre | visibility == true || visibility == false
 	 * @pre | TL.getX() < BR.getX() && TL.getY() < BR.getY()
 	 * @post | getTL() == TL
 	 * @post | getBR() == BR
+	 * @post | getVisibility() == visibility
 	 */
-	public BlockState(Point TL, Point BR) {
+	public BlockState(Point TL, Point BR, boolean visibility) {
 		this.blockTL = TL;
 		this.blockBR = BR;
+		this.visible = visibility;
 	}
 	
 	/** Return this block's topleft point */
@@ -38,6 +43,10 @@ public class BlockState {
 	public Rectangle getRectangle() {
 		Rectangle loc = new Rectangle(this.blockTL, this.blockBR);
 		return loc;
+	}
+	
+	public boolean getVisibility() {
+		return this.visible;
 	}
 	
 	/** Checks if this block has a collision with a ball with given center and diameter and returns the reflection vector

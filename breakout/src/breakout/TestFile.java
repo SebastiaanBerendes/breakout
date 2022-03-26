@@ -28,10 +28,10 @@ class TestFile {
 		ball1 = new BallState(new Point(3,6), new Vector(2,1), 6);
 		ball2 = new BallState(new Point(34,89), new Vector(-5,10), 20);
 		ball3 = new BallState(new Point(150,220), new Vector(0,-20),10);
-		block1 = new BlockState(new Point(1,1), new Point(11,11));
-		block2 = new BlockState(new Point(5,65), new Point(23,84));
-		block3 = new BlockState(new Point(100,155),new Point(200,200));
-		block4 = new BlockState(new Point(200,155),new Point(300,200));
+		block1 = new BlockState(new Point(1,1), new Point(11,11),true);
+		block2 = new BlockState(new Point(5,65), new Point(23,84),true);
+		block3 = new BlockState(new Point(100,155),new Point(200,200),true);
+		block4 = new BlockState(new Point(200,155),new Point(300,200),true);
 		paddle1 = new PaddleState(new Point(20,20), new Point(15,10), new Point(25,30));
 		paddle2 = new PaddleState(new Point(150,250), new Point(100,240), new Point(200,260));
 		wall = new WallState(new Point(0,-50), new Point(100,0));
@@ -41,55 +41,56 @@ class TestFile {
 	}
 	@Test
 	void testBallState() {
-		assertEquals(new Point(3,6),ball1.getCenter());
-		assertEquals(new Point(34,89),ball2.getCenter());
-		assertEquals(new Vector(2,1),ball1.getVelocity());
-		assertEquals(new Vector(-5,10),ball2.getVelocity());
+		assertEquals(new Point(3,6).equals(ball1.getCenter()),true);
+		assertEquals(new Point(34,89).equals(ball2.getCenter()),true);
+		assertEquals(new Vector(2,1).equals(ball1.getVelocity()),true);
+		assertEquals(new Vector(-5,10).equals(ball2.getVelocity()),true);
 		assertEquals(6,ball1.getDiameter());
 		assertEquals(20,ball2.getDiameter());
-		assertEquals(new Point(6,9),ball1.getBR());
-		assertEquals(new Point(44,99),ball2.getBR());
-		assertEquals(new Point(0,3),ball1.getTL());
-		assertEquals(new Point(24,79),ball2.getTL());
+		assertEquals(new Point(6,9).equals(ball1.getBR()),true);
+		assertEquals(new Point(44,99).equals(ball2.getBR()),true);
+		assertEquals(new Point(0,3).equals(ball1.getTL()),true);
+		assertEquals(new Point(24,79).equals(ball2.getTL()),true);
 	}
 	@Test
 	void testBlockState() {
-		assertEquals(new Point(1,1),block1.getTL());
-		assertEquals(new Point(23,84),block2.getBR());
+		assertEquals(new Point(1,1).equals(block1.getTL()),true);
+		assertEquals(new Point(23,84).equals(block2.getBR()),true);
 		assertEquals(block1.getRectangle().equals(new Rectangle(new Point(1,1),new Point(11,11))),true);
-		assertEquals(new Vector(1,0), block1.collision(new Point(12,5), 2));
-		assertEquals(new Vector(0,0), block1.collision(new Point(12,5), 1));
-		assertEquals(new Vector(-1,0),block2.collision(new Point(4,70), 3));
-		assertEquals(new Vector(0,0),block2.collision(new Point(4,70), 1));
+		assertEquals(new Vector(1,0).equals(block1.collision(new Point(12,5), 2)),true);
+		assertEquals(new Vector(0,0).equals(block1.collision(new Point(12,5), 1)),true);
+		assertEquals(new Vector(-1,0).equals(block2.collision(new Point(4,70), 3)),true);
+		assertEquals(new Vector(0,0).equals(block2.collision(new Point(4,70), 1)),true);
+		assertEquals(true,block1.getVisibility());
 	}
 	@Test
 	void testPaddleState() {
-		assertEquals(new Point(20,20),paddle1.getCenter());
-		assertEquals(new Point(15,10),paddle1.getTL());
-		assertEquals(new Point(25,30),paddle1.getBR());
+		assertEquals(new Point(20,20).equals(paddle1.getCenter()),true);
+		assertEquals(new Point(15,10).equals(paddle1.getTL()),true);
+		assertEquals(new Point(25,30).equals(paddle1.getBR()),true);
 		assertEquals(10,paddle1.getSpeed());
 		assertEquals(paddle1.getRectangle().equals(new Rectangle(new Point(15,10),new Point(11,11))),false);
 		assertEquals(paddle1.getRectangle().equals(new Rectangle(new Point(14,10),new Point(25,30))),false);
-		assertEquals(new Vector(0,-1), paddle1.collision(new Point(17,9),3));
-		assertEquals(new Vector(0,0), paddle1.collision(new Point(17,9),1));
+		assertEquals(new Vector(0,-1).equals(paddle1.collision(new Point(17,9),3)),true);
+		assertEquals(new Vector(0,0).equals(paddle1.collision(new Point(17,9),1)),true);
 	}
 	@Test
 	void testWallState() {
-		assertEquals(new Point(0,-50),wall.getTL());
-		assertEquals(new Point(100,0),wall.getBR());
+		assertEquals(new Point(0,-50).equals(wall.getTL()),true);
+		assertEquals(new Point(100,0).equals(wall.getBR()),true);
 		assertEquals(wall.getRectangle().equals(1),false);
 		assertEquals(wall.getRectangle().equals(null),false);
-		assertEquals(new Vector(0,0),wall.collision(new Point(13,5), 2));
-		assertEquals(new Vector(0,1),wall.collision(new Point(45,6), 14));
+		assertEquals(new Vector(0,0).equals(wall.collision(new Point(13,5), 2)),true);
+		assertEquals(new Vector(0,1).equals(wall.collision(new Point(45,6), 14)),true);
 	}
 	@Test
 	void testBreakoutState() {
 		assertEquals(Arrays.equals(breakout1.getBalls(), new BallState[]{ball1}),true);
 		assertEquals(Arrays.equals(breakout1.getBlocks(), new BlockState[]{block1}),false);
-		assertEquals(new Point(5000,3000),breakout1.getBottomRight());
+		assertEquals(new Point(5000,3000).equals(breakout1.getBottomRight()),true);
 		assertEquals(paddle1,breakout1.getPaddle());
-		assertEquals(breakout1.getWalls()[0].getTL(),wall2.getTL());
-		assertEquals(breakout1.getWalls()[0].getBR(),wall2.getBR());
+		assertEquals(breakout1.getWalls()[0].getTL().equals(wall2.getTL()),true);
+		assertEquals(breakout1.getWalls()[0].getBR().equals(wall2.getBR()),true);
 		assertEquals((new BreakoutState(new BallState[]{}, new BlockState[]{block1,block2}, new Point(5000,3000), paddle1)).isDead(),true);
 		assertEquals((new BreakoutState(new BallState[]{ball1}, new BlockState[]{block1,block2}, new Point(5000,3000), paddle1)).isDead(),false);
 		assertEquals((new BreakoutState(new BallState[]{ball1}, new BlockState[]{}, new Point(5000,3000), paddle1)).isWon(),true);
