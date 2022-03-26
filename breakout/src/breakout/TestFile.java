@@ -25,7 +25,7 @@ class TestFile {
 // Variabelen initialiseren
 	@BeforeEach
 	void setUp() throws Exception {
-		ball1 = new BallState(new Point(3,6), new Vector(2,1), 7);
+		ball1 = new BallState(new Point(3,6), new Vector(2,1), 6);
 		ball2 = new BallState(new Point(34,89), new Vector(-5,10), 20);
 		ball3 = new BallState(new Point(150,220), new Vector(0,-20),10);
 		block1 = new BlockState(new Point(1,1), new Point(11,11));
@@ -45,7 +45,7 @@ class TestFile {
 		assertEquals(new Point(34,89),ball2.getCenter());
 		assertEquals(new Vector(2,1),ball1.getVelocity());
 		assertEquals(new Vector(-5,10),ball2.getVelocity());
-		assertEquals(7,ball1.getDiameter());
+		assertEquals(6,ball1.getDiameter());
 		assertEquals(20,ball2.getDiameter());
 		assertEquals(new Point(6,9),ball1.getBR());
 		assertEquals(new Point(44,99),ball2.getBR());
