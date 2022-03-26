@@ -2,12 +2,18 @@ package breakout;
 
 /**
  * Each instance of this class stores a topleft point and a bottomright point.
- * 
  *@invar | getTL() != null
  *@invar | getBR() != null
+ *@invar | getTL().getX() < getBR().getX() && getTL().getY() < getBR().getY()
+ *@immutable
  */
 public class WallState {
 	
+	/**
+	 *@invar | topleft != null
+	 *@invar | bottomright != null
+	 *@invar | topleft.getX() < bottomright.getX() && topleft.getY() < bottomright.getY()
+	 */
 	private Point topleft;
 	private Point bottomright;
 	
@@ -37,14 +43,16 @@ public class WallState {
 	 *  If there is no collision the function returns the zero vector.
 	 * @pre | Ballcenter != null
 	 * @pre | Balldiameter > 0
-	 * 
+	 * @inspects | getRectangle()
 	 * @post | result.equals(Vector.UP) || result.equals(Vector.DOWN) || result.equals(Vector.RIGHT) || result.equals(Vector.LEFT) || result.equals(new Vector(0,0))
 	 */
 	public Vector collision(Point Ballcenter, int Balldiameter) {
 		return this.getRectangle().collision(Ballcenter, Balldiameter);
 	}
 	
-	/** Returns the Rectangle abstraction of this wall */
+	/** Returns the Rectangle abstraction of this wall 
+	 *  @inspects | getTL(), getBR()
+	 */
 	public Rectangle getRectangle() {
 		Rectangle loc = new Rectangle(this.topleft, this.bottomright);
 		return loc;

@@ -9,6 +9,11 @@ package breakout;
  */
 public class BallState {
 	
+	/**
+	 * @invar | diameter > 0
+	 * @invar | center != null
+	 * @invar | velocity != null
+	 */
 	private Point center;
 	private Vector velocity;
 	private int diameter;
@@ -43,7 +48,9 @@ public class BallState {
 		return this.diameter;
 	}
 	
-	/** Return this ball's adjacent square topleft point */
+	/** Return this ball's adjacent square topleft point 
+	 *  @inspects | getDiameter(), getCenter()
+	 */
 	public Point getTL() {
 		int radius = diameter/2;
 		int xcord = center.getX()-radius;
@@ -52,7 +59,9 @@ public class BallState {
 		return TL;
 	}
 	
-	/** Return this ball's adjacent square bottomright point */
+	/** Return this ball's adjacent square bottomright point
+	 *  @inspects | getDiameter(), getCenter()
+	 */
 	public Point getBR() {
 		int radius = diameter/2;
 		int xcord = center.getX()+radius;

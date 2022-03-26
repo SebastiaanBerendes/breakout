@@ -4,11 +4,16 @@ package breakout;
  * Represents a block. 
  * @invar | getTL() != null
  * @invar | getBR() != null
- * @invar | getVisibility() == false || getVisibility() == true
+ * @invar | getTL().getX() < getBR().getX() && getTL().getY() < getBR().getY()
  * @immutable
  */
 public class BlockState {
 	
+	/**
+	 * @invar | blockTL != null
+	 * @invar | blockBR != null
+	 * @invar | blockTL.getX() < blockBR.getX() && blockTL.getY() < blockBR.getY()
+	 */
 	private Point blockTL;
 	private Point blockBR;
 	private boolean visible;
@@ -17,7 +22,6 @@ public class BlockState {
 	 * Return a new block with given topleft and bottomright points.
 	 * @pre | TL != null
 	 * @pre | BR != null
-	 * @pre | visibility == true || visibility == false
 	 * @pre | TL.getX() < BR.getX() && TL.getY() < BR.getY()
 	 * @post | getTL().equals(TL)
 	 * @post | getBR().equals(BR)
@@ -39,12 +43,15 @@ public class BlockState {
 		return this.blockBR;
 	}
 	
-	/** Returns the Rectangle abstraction of this block */
+	/** Returns the Rectangle abstraction of this block 
+	 *  @inspects | getTL(), getBR()
+	 */
 	public Rectangle getRectangle() {
 		Rectangle loc = new Rectangle(this.blockTL, this.blockBR);
 		return loc;
 	}
 	
+	/** Returns if the block is visible or not */
 	public boolean getVisibility() {
 		return this.visible;
 	}
@@ -53,7 +60,7 @@ public class BlockState {
 	 *  If there is no collision the function returns the zero vector.
 	 * @pre | Ballcenter != null
 	 * @pre | Balldiameter > 0
-	 * 
+	 * @inspects | getRectangle()
 	 * @post | result.equals(Vector.UP) || result.equals(Vector.DOWN) || result.equals(Vector.RIGHT) || result.equals(Vector.LEFT) || result.equals(new Vector(0,0))
 	 */
 	public Vector collision(Point Ballcenter, int Balldiameter) {

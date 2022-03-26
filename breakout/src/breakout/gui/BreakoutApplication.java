@@ -13,9 +13,9 @@ public class BreakoutApplication {
 ##########
 ##########
 ##########
-          
+
      o
-          
+
      =
 
 """;

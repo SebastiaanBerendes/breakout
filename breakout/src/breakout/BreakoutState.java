@@ -7,7 +7,6 @@ import java.util.List;
 
 /**
  * Represents a state of the game breakout
- * 
  *@invar | getBalls() != null 
  *@invar | getBlocks() != null
  *@invar | getBottomRight() != null
@@ -16,6 +15,7 @@ import java.util.List;
 public class BreakoutState {
 	
 	/**
+	 *@invar | balls != null || blocks != null || bottomRight != null || paddle != null
 	 *@invar | Arrays.stream(balls).allMatch(e -> e.getTL().getX() >= Point.ORIGIN.getX() && e.getTL().getY() >= Point.ORIGIN.getY() && e.getBR().getX() <= bottomRight.getX() && e.getBR().getY() <= bottomRight.getY())	
 	 *@invar | Arrays.stream(blocks).allMatch(e -> e.getTL().getX() >= Point.ORIGIN.getX() && e.getTL().getY() >= Point.ORIGIN.getY() && e.getBR().getX() <= bottomRight.getX() && e.getBR().getY() <= bottomRight.getY())
 	 *@invar | (bottomRight.getX() > Point.ORIGIN.getX() && bottomRight.getY() > Point.ORIGIN.getY())
@@ -84,13 +84,15 @@ public class BreakoutState {
 		WallState wallL = new WallState(new Point (Point.ORIGIN.getX() - bottomRight.getX(), Point.ORIGIN.getY()), new Point (Point.ORIGIN.getX(), bottomRight.getY()));
 		WallState wallR = new WallState(new Point (bottomRight.getX(), Point.ORIGIN.getY()), new Point (2 * bottomRight.getX(), bottomRight.getY()));
 		WallState[] walls = new WallState[]{wallT, wallL, wallR};
-		return walls.clone();
+		return walls;
 	}
 
 	/** 
 	 * Moves the balls according to their velocity, checks if there are any collisions between the balls and the blocks, walls and paddle
 	 * and reflects the ball accordingly. If any blocks are hit by balls, they are removed and balls that hit the bottom of the screen
 	 * also get removed. Balls that hit the paddle will inherit a fifth of the speed of the paddle.
+	 * @mutates | getBalls(), getBlocks()
+	 * @inspects | getBalls(), getBlocks(), getWalls(), getPaddle(), getBottomRight()
 	 */
 	public void tick(int paddleDir) {
 		WallState[] walls = getWalls();
@@ -182,6 +184,7 @@ public class BreakoutState {
 	
 	/**
 	 * When the right arrowkey is pressed, the paddle will move to the right.
+	 * @mutates | getPaddle()
 	 */
 	public void movePaddleRight() {
 		Vector shift = new Vector(paddle.getSpeed(),0);
@@ -194,6 +197,7 @@ public class BreakoutState {
 	
 	/**
 	 * When the left arrowkey is pressed, the paddle will move to the left.
+	 * @mutates | getPaddle()
 	 */
 	public void movePaddleLeft() {
 		Vector shift = new Vector(-paddle.getSpeed(),0);

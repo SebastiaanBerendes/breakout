@@ -5,10 +5,19 @@ package breakout;
  * @invar | getCenter() != null
  * @invar | getBR() != null
  * @invar | getTL() != null
+ * @invar | getTL().getX() < getBR().getX() && getTL().getY() < getBR().getY()
+ * @invar | (getBR().getX()+getTL().getX())/2 == getCenter().getX() && (getBR().getY()+getTL().getY())/2 == getCenter().getY()
  * @immutable
  */
 public class PaddleState {
 	
+	/**
+	 * @invar | center != null
+	 * @invar | paddleBR != null
+	 * @invar | paddleTL != null
+	 * @invar | paddleTL.getX() < paddleBR.getX() && paddleTL.getY() < paddleBR.getY()
+	 * @invar | (paddleBR.getX()+paddleTL.getX())/2 == center.getX() && (paddleBR.getY()+paddleTL.getY())/2 == center.getY()
+	 */
 	private Point center;
 	private Point paddleBR;
 	private Point paddleTL;
@@ -49,7 +58,7 @@ public class PaddleState {
 	 *  If there is no collision the function returns the zero vector.
 	 * @pre | Ballcenter != null
 	 * @pre | Balldiameter > 0
-	 * 
+	 * @inspects | getRectangle()
 	 * @post | result.equals(Vector.UP) || result.equals(Vector.DOWN) || result.equals(Vector.RIGHT) || result.equals(Vector.LEFT) || result.equals(new Vector(0,0))
 	 */
 	public Vector collision(Point Ballcenter, int Balldiameter) {
@@ -61,7 +70,9 @@ public class PaddleState {
 		return 10;
 	}
 	
-	/** Returns the Rectangle abstraction of this paddle */
+	/** Returns the Rectangle abstraction of this paddle
+	 *  @inspects | getTL(), getBR()
+	 */
 	public Rectangle getRectangle() {
 		Rectangle loc = new Rectangle(this.paddleTL, this.paddleBR);
 		return loc;

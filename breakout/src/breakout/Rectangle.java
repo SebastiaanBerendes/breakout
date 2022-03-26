@@ -4,9 +4,16 @@ package breakout;
  * Represents a rectangle
  * @invar | getTL() != null
  * @invar | getBR() != null
+ * @invar | getTL().getX() < getBR().getX() && getTL().getY() < getBR().getY()
  * @immutable
  */
 public class Rectangle {
+	
+	/**
+	 * @invar | RectangleTL != null
+	 * @invar | RectangleBR != null
+	 * @invar | RectangleTL.getX() < RectangleBR.getX() && RectangleTL.getY() < RectangleBR.getY()
+	 */
 	private Point RectangleTL;
 	private Point RectangleBR;
 
