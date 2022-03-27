@@ -32,10 +32,10 @@ public class BreakoutState {
 	 * Return a new BreakoutState with given balls, blocks, most bottomRight point and paddle
 	 * 
 	 * @throws IllegalArgumentException | balls == null || blocks == null || paddle == null || bottomRight == null
-	 * @throws IllegalArgumentException | Arrays.stream(balls).allMatch(e -> e.getTL().getX() >= Point.ORIGIN.getX() || e.getTL().getY() >= Point.ORIGIN.getY() || e.getBR().getX() <= bottomRight.getX() || e.getBR().getY() <= bottomRight.getY())
-	 * @throws IllegalArgumentException | Arrays.stream(blocks).allMatch(e -> e.getTL().getX() >= Point.ORIGIN.getX() || e.getTL().getY() >= Point.ORIGIN.getY() || e.getBR().getX() <= bottomRight.getX() || e.getBR().getY() <= bottomRight.getY())
-	 * @throws IllegalArgumentException | (bottomRight.getX() > Point.ORIGIN.getX() || bottomRight.getY() > Point.ORIGIN.getY())
-	 * @throws IllegalArgumentException | (paddle.getTL().getX() >= Point.ORIGIN.getX() || paddle.getTL().getY() >= Point.ORIGIN.getY() || paddle.getBR().getX() <= bottomRight.getX() || paddle.getBR().getY() <= bottomRight.getY())
+	 * @throws IllegalArgumentException | !(Arrays.stream(balls).allMatch(e -> e.getTL().getX() >= Point.ORIGIN.getX() || e.getTL().getY() >= Point.ORIGIN.getY() || e.getBR().getX() <= bottomRight.getX() || e.getBR().getY() <= bottomRight.getY()))
+	 * @throws IllegalArgumentException | !(Arrays.stream(blocks).allMatch(e -> e.getTL().getX() >= Point.ORIGIN.getX() || e.getTL().getY() >= Point.ORIGIN.getY() || e.getBR().getX() <= bottomRight.getX() || e.getBR().getY() <= bottomRight.getY()))
+	 * @throws IllegalArgumentException | !(bottomRight.getX() > Point.ORIGIN.getX() || bottomRight.getY() > Point.ORIGIN.getY())
+	 * @throws IllegalArgumentException | !(paddle.getTL().getX() >= Point.ORIGIN.getX() || paddle.getTL().getY() >= Point.ORIGIN.getY() || paddle.getBR().getX() <= bottomRight.getX() || paddle.getBR().getY() <= bottomRight.getY())
 	 * 
 	 * @post | Arrays.equals(getBalls(), balls)
 	 * @post | Arrays.equals(getBlocks(), blocks)
